@@ -1,5 +1,6 @@
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import theme from "./theme";
 import React from "react";
 
 function ElevationScroll(props) {
@@ -16,11 +17,16 @@ function ElevationScroll(props) {
 
 function Header() {
 	return (
-		<ElevationScroll>
-			<AppBar position="fixed">
-				<Toolbar>Arc Development</Toolbar>
-			</AppBar>
-		</ElevationScroll>
+		<React.Fragment>
+			<ElevationScroll>
+				<AppBar position="fixed">
+					<Toolbar>
+						<Typography variant="h3">Arc Development</Typography>
+					</Toolbar>
+				</AppBar>
+			</ElevationScroll>
+			<Box sx={{ ...theme.mixins.toolbar }} />
+		</React.Fragment>
 	);
 }
 
