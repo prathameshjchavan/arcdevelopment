@@ -16,9 +16,17 @@ export default createTheme({
 			main: arcOrange,
 		},
 	},
+	mixins: {
+		toolbar: {
+			height: "7em",
+		},
+	},
 	typography: {
-		h3: {
-			fontWeight: 300,
+		tab: {
+			fontFamily: "Raleway",
+			textTransform: "none",
+			fontWeight: 700,
+			fontSize: "1rem",
 		},
 	},
 });

@@ -1,5 +1,6 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Tab, Tabs, Toolbar } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+
 import theme from "./theme";
 import React from "react";
 
@@ -16,12 +17,35 @@ function ElevationScroll(props) {
 }
 
 function Header() {
+	const sx = {
+		tab: {
+			...theme.typography.tab,
+			minWidth: 10,
+			marginLeft: "25px",
+		},
+	};
+
 	return (
 		<React.Fragment>
 			<ElevationScroll>
 				<AppBar position="fixed">
-					<Toolbar>
-						<Typography variant="h3">Arc Development</Typography>
+					<Toolbar disableGutters>
+						<img
+							style={{ height: "100%" }}
+							src="/assets/logo.svg"
+							alt="company logo"
+						/>
+						<Tabs
+							indicatorColor="secondary"
+							textColor="inherit"
+							sx={{ marginLeft: "auto" }}
+						>
+							<Tab sx={sx.tab} label="Home" />
+							<Tab sx={sx.tab} label="Services" />
+							<Tab sx={sx.tab} label="The Revolution" />
+							<Tab sx={sx.tab} label="About Us" />
+							<Tab sx={sx.tab} label="Contact Us" />
+						</Tabs>
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>
