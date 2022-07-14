@@ -1,8 +1,11 @@
-import { AppBar, Box, Tab, Tabs, Toolbar } from "@mui/material";
+// Module Imports
+import { AppBar, Box, Button, Tab, Tabs, Toolbar } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
+import { Link } from "react-router-dom";
+import React, { useState } from "react";
 
+// Local Imports
 import theme from "./theme";
-import React from "react";
 
 function ElevationScroll(props) {
 	const { children } = props;
@@ -17,11 +20,24 @@ function ElevationScroll(props) {
 }
 
 function Header() {
+	const [value, setValue] = useState(0);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
 	const sx = {
 		tab: {
 			...theme.typography.tab,
 			minWidth: 10,
 			marginLeft: "25px",
+		},
+		button: {
+			...theme.typography.estimate,
+			borderRadius: 50,
+			marginLeft: "50px",
+			marginRight: "25px",
+			height: "45px",
 		},
 	};
 
@@ -36,16 +52,36 @@ function Header() {
 							alt="company logo"
 						/>
 						<Tabs
-							indicatorColor="secondary"
+							value={value}
+							onChange={handleChange}
+							indicatorColor="primary"
 							textColor="inherit"
 							sx={{ marginLeft: "auto" }}
 						>
-							<Tab sx={sx.tab} label="Home" />
-							<Tab sx={sx.tab} label="Services" />
-							<Tab sx={sx.tab} label="The Revolution" />
-							<Tab sx={sx.tab} label="About Us" />
-							<Tab sx={sx.tab} label="Contact Us" />
+							<Tab sx={sx.tab} label="Home" component={Link} to="/" />
+							<Tab
+								sx={sx.tab}
+								label="Services"
+								component={Link}
+								to="/services"
+							/>
+							<Tab
+								sx={sx.tab}
+								label="The Revolution"
+								component={Link}
+								to="/revolution"
+							/>
+							<Tab sx={sx.tab} label="About Us" component={Link} to="/about" />
+							<Tab
+								sx={sx.tab}
+								label="Contact Us"
+								component={Link}
+								to="/contact"
+							/>
 						</Tabs>
+						<Button sx={sx.button} variant="contained" color="secondary">
+							Free Estimate
+						</Button>
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>
