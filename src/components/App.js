@@ -19,7 +19,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/services" element={<Home />} />
 					<Route path="/customsoftware" element={<Home />} />
-					<Route path="/mobilesapps" element={<Home />} />
+					<Route path="/mobileapps" element={<Home />} />
 					<Route path="/websites" element={<Home />} />
 					<Route path="/revolution" element={<Home />} />
 					<Route path="/about" element={<Home />} />
