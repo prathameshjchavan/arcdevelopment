@@ -32,7 +32,8 @@ function ElevationScroll(props) {
 function Header() {
 	const [value, setValue] = useState(0);
 	const [anchorEl, setAnchorEl] = useState(null);
-	const [open, setOpen] = useState(false);
+	const [selectedIndex, setSelectedIndex] = useState(-1);
+	const open = Boolean(anchorEl);
 
 	const sx = {
 		tab: {
@@ -54,33 +55,61 @@ function Header() {
 		servicesMenu: {
 			marginTop: "-50px",
 			"& .MuiPaper-root": {
-				backgroundColor: theme.palette.common.blue,
-				color: "#fff",
 				borderRadius: 0,
+			},
+			"& .MuiList-root": {
+				background: theme.palette.common.blue,
 			},
 			"& .MuiMenuItem-root": {
 				...theme.typography.tab,
+				color: "#fff",
 				opacity: 0.7,
 				"&:hover": {
 					opacity: 1,
 				},
 			},
+			"& .Mui-selected": {
+				background: "#074f81 !important",
+			},
 		},
 	};
+
+	const servicesMenuOptions = [
+		{
+			name: "Services",
+			link: "/services",
+		},
+		{
+			name: "Custom Software Development",
+			link: "/customsoftware",
+		},
+		{
+			name: "Mobile App Development",
+			link: "/mobileapps",
+		},
+		{
+			name: "Website Development",
+			link: "/websites",
+		},
+	];
 
 	// Event Listeners
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
 	};
 
-	const handleClick = (event) => {
+	const handleOpenMenu = (event) => {
 		setAnchorEl(event.currentTarget);
-		setOpen(true);
 	};
 
-	const handleClose = () => {
+	const handleMenuItemClick = (event, index) => {
+		setValue(1);
+		setSelectedIndex(index);
 		setAnchorEl(null);
-		setOpen(false);
+	};
+
+	const handleCloseMenu = () => {
+		setAnchorEl(null);
 	};
 
 	useEffect(() => {
@@ -121,9 +150,11 @@ function Header() {
 						>
 							<Tab sx={sx.tab} label="Home" component={Link} to="/" />
 							<Tab
-								aria-owns={anchorEl ? "basic-menu" : undefined}
-								aria-haspopup={anchorEl ? true : undefined}
-								onMouseOver={(e) => handleClick(e)}
+								id="services"
+								aria-haspopup="listbox"
+								aria-controls="services-menu"
+								aria-expanded={open ? "true" : undefined}
+								onMouseEnter={handleOpenMenu}
 								sx={sx.tab}
 								label="Services"
 								component={Link}
@@ -143,59 +174,34 @@ function Header() {
 								to="/contact"
 							/>
 						</Tabs>
+						<Menu
+							id="services-menu"
+							anchorEl={anchorEl}
+							open={open}
+							onClose={handleCloseMenu}
+							MenuListProps={{
+								"aria-labelledby": "services",
+								role: "listbox",
+								onMouseLeave: handleCloseMenu,
+							}}
+							sx={sx.servicesMenu}
+							disableAutoFocusItem
+						>
+							{servicesMenuOptions.map(({ name, link }, index) => (
+								<MenuItem
+									key={name}
+									component={Link}
+									to={link}
+									selected={index === selectedIndex && value === 1}
+									onClick={(event) => handleMenuItemClick(event, index)}
+								>
+									{name}
+								</MenuItem>
+							))}
+						</Menu>
 						<Button sx={sx.button} variant="contained" color="secondary">
 							Free Estimate
 						</Button>
-						<Menu
-							id="basic-menu"
-							anchorEl={anchorEl}
-							open={open}
-							onClose={handleClose}
-							MenuListProps={{ onMouseLeave: handleClose }}
-							sx={sx.servicesMenu}
-						>
-							<MenuItem
-								component={Link}
-								to="/services"
-								onClick={() => {
-									handleClose();
-									setValue(1);
-								}}
-								// sx={{ ...theme.typography.tab }}
-							>
-								Services
-							</MenuItem>
-							<MenuItem
-								component={Link}
-								to="/customsoftware"
-								onClick={() => {
-									handleClose();
-									setValue(1);
-								}}
-							>
-								Custom Software Development
-							</MenuItem>
-							<MenuItem
-								component={Link}
-								to="/mobileapps"
-								onClick={() => {
-									handleClose();
-									setValue(1);
-								}}
-							>
-								Mobile App Development
-							</MenuItem>
-							<MenuItem
-								component={Link}
-								to="/websites"
-								onClick={() => {
-									handleClose();
-									setValue(1);
-								}}
-							>
-								Website Development
-							</MenuItem>
-						</Menu>
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>
