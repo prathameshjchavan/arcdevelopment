@@ -35,4 +35,16 @@ export default createTheme({
 			color: "#fff",
 		},
 	},
+	breakpoints: {
+		values: {
+			// default
+			xs: 0,
+			sm: 600,
+			md: 900,
+			lg: 1200,
+			xl: 1536,
+			// custom
+			tabs: 1290,
+		},
+	},
 });
