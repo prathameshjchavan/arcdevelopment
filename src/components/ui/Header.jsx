@@ -12,6 +12,9 @@ import {
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import MenuIcon from "@mui/icons-material/Menu";
+import IconButton from "@mui/material/IconButton";
 import { Link } from "react-router-dom";
 import React, { Fragment, useEffect, useState } from "react";
 
@@ -32,9 +35,13 @@ function Header() {
 	const [value, setValue] = useState(0);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
-	const open = Boolean(anchorEl);
+	const [openDrawer, setOpenDrawer] = useState(false);
+	const openMenu = Boolean(anchorEl);
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down("tabs"));
+	const iOS =
+		typeof navigator !== "undefined" &&
+		/iPad|iPhone|iPod/.test(navigator.userAgent);
 
 	const sx = {
 		tab: {
@@ -80,6 +87,13 @@ function Header() {
 			[theme.breakpoints.down("sm")]: {
 				height: "5em",
 			},
+		},
+		drawerIconContainer: {
+			marginLeft: "auto",
+		},
+		drawerIcon: {
+			height: "50px",
+			width: "50px",
 		},
 	};
 
@@ -191,7 +205,7 @@ function Header() {
 					id="services"
 					aria-haspopup="listbox"
 					aria-controls="services-menu"
-					aria-expanded={open ? "true" : undefined}
+					aria-expanded={openMenu ? "true" : undefined}
 					onMouseEnter={handleOpenMenu}
 					sx={sx.tab}
 					label="Services"
@@ -210,7 +224,7 @@ function Header() {
 			<Menu
 				id="services-menu"
 				anchorEl={anchorEl}
-				open={open}
+				open={openMenu}
 				onClose={handleCloseMenu}
 				MenuListProps={{
 					"aria-labelledby": "services",
@@ -238,6 +252,27 @@ function Header() {
 		</Fragment>
 	);
 
+	const drawer = (
+		<Fragment>
+			<SwipeableDrawer
+				disableBackdropTransition={!iOS}
+				disableDiscovery={iOS}
+				open={openDrawer}
+				onClose={() => setOpenDrawer(false)}
+				onOpen={() => setOpenDrawer(true)}
+			>
+				Example Drawer
+			</SwipeableDrawer>
+			<IconButton
+				sx={sx.drawerIconContainer}
+				onClick={() => setOpenDrawer(!openDrawer)}
+				disableRipple
+			>
+				<MenuIcon sx={sx.drawerIcon} />
+			</IconButton>
+		</Fragment>
+	);
+
 	return (
 		<React.Fragment>
 			<ElevationScroll>
@@ -256,7 +291,7 @@ function Header() {
 								alt="company logo"
 							/>
 						</Button>
-						{matches ? null : tabs}
+						{matches ? drawer : tabs}
 					</Toolbar>
 				</AppBar>
 			</ElevationScroll>
