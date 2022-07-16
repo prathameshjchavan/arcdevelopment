@@ -3,6 +3,7 @@ import {
 	AppBar,
 	Box,
 	Button,
+	ListItemButton,
 	Menu,
 	MenuItem,
 	Tab,
@@ -15,6 +16,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 import React, { Fragment, useEffect, useState } from "react";
 
@@ -94,6 +98,33 @@ function Header() {
 		drawerIcon: {
 			height: "50px",
 			width: "50px",
+		},
+		drawer: {
+			"& .MuiPaper-root": {
+				background: theme.palette.common.blue,
+			},
+			"& .MuiListItem-root": {
+				padding: 0,
+			},
+			"& .MuiListItemButton-root": {
+				padding: "8px 16px",
+			},
+			"& .Mui-selected": {
+				background: "#074f81 !important",
+			},
+		},
+		drawerItem: {
+			...theme.typography.tab,
+			color: "#fff",
+		},
+		drawerItemButton: {
+			padding: 0,
+			"&:hover": {
+				background: "transparent",
+			},
+		},
+		drawerItemEstimate: {
+			background: theme.palette.common.orange,
 		},
 	};
 
@@ -257,11 +288,112 @@ function Header() {
 			<SwipeableDrawer
 				disableBackdropTransition={!iOS}
 				disableDiscovery={iOS}
+				anchor="right"
 				open={openDrawer}
 				onClose={() => setOpenDrawer(false)}
 				onOpen={() => setOpenDrawer(true)}
+				sx={sx.drawer}
 			>
-				Example Drawer
+				<List disablePadding>
+					<ListItem
+						onClick={() => {
+							setValue(0);
+							setOpenDrawer(false);
+						}}
+						divider
+						component={Link}
+						to="/"
+					>
+						<ListItemButton selected={value === 0} sx={sx.drawerItemButton}>
+							<ListItemText sx={sx.drawerItem} disableTypography>
+								Home
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+					<ListItem
+						onClick={() => {
+							setValue(1);
+							setOpenDrawer(false);
+						}}
+						divider
+						button
+						component={Link}
+						to="/services"
+					>
+						<ListItemButton selected={value === 1} sx={sx.drawerItemButton}>
+							<ListItemText sx={sx.drawerItem} disableTypography>
+								Services
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+					<ListItem
+						onClick={() => {
+							setValue(2);
+							setOpenDrawer(false);
+						}}
+						divider
+						button
+						component={Link}
+						to="/revolution"
+					>
+						<ListItemButton selected={value === 2} sx={sx.drawerItemButton}>
+							<ListItemText sx={sx.drawerItem} disableTypography>
+								The Revolution
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+					<ListItem
+						onClick={() => {
+							setValue(3);
+							setOpenDrawer(false);
+						}}
+						divider
+						button
+						component={Link}
+						to="/about"
+					>
+						<ListItemButton selected={value === 3} sx={sx.drawerItemButton}>
+							<ListItemText sx={sx.drawerItem} disableTypography>
+								About Us
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+					<ListItem
+						onClick={() => {
+							setValue(4);
+							setOpenDrawer(false);
+						}}
+						divider
+						button
+						component={Link}
+						to="/contact"
+					>
+						<ListItemButton selected={value === 4} sx={sx.drawerItemButton}>
+							<ListItemText sx={sx.drawerItem} disableTypography>
+								Contact Us
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+					<ListItem
+						onClick={() => {
+							setValue(5);
+							setOpenDrawer(false);
+						}}
+						divider
+						button
+						component={Link}
+						to="/estimate"
+					>
+						<ListItemButton
+							selected={value === 5}
+							sx={{ ...sx.drawerItemButton, ...sx.drawerItemEstimate }}
+						>
+							<ListItemText sx={sx.drawerItem} disableTypography>
+								Free Estimate
+							</ListItemText>
+						</ListItemButton>
+					</ListItem>
+				</List>
 			</SwipeableDrawer>
 			<IconButton
 				sx={sx.drawerIconContainer}
