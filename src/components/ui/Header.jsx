@@ -20,7 +20,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 
 // Elevation Scroll Effect
 function ElevationScroll(props) {
@@ -36,7 +36,7 @@ function ElevationScroll(props) {
 }
 
 function Header() {
-	const [value, setValue] = useState(0);
+	const [value, setValue] = useState(-1);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [openDrawer, setOpenDrawer] = useState(false);
@@ -112,10 +112,14 @@ function Header() {
 			"& .Mui-selected": {
 				background: "#074f81 !important",
 			},
+			"& .Mui-selected > .MuiListItemText-root": {
+				opacity: 1,
+			},
 		},
 		drawerItem: {
 			...theme.typography.tab,
 			color: "#fff",
+			opacity: 0.7,
 		},
 		drawerItemButton: {
 			padding: 0,
@@ -128,24 +132,54 @@ function Header() {
 		},
 	};
 
-	const servicesMenuOptions = [
-		{
-			name: "Services",
-			link: "/services",
-		},
-		{
-			name: "Custom Software Development",
-			link: "/customsoftware",
-		},
-		{
-			name: "Mobile App Development",
-			link: "/mobileapps",
-		},
-		{
-			name: "Website Development",
-			link: "/websites",
-		},
-	];
+	const servicesMenuOptions = useMemo(
+		() => [
+			{
+				name: "Services",
+				link: "/services",
+			},
+			{
+				name: "Custom Software Development",
+				link: "/customsoftware",
+			},
+			{
+				name: "Mobile App Development",
+				link: "/mobileapps",
+			},
+			{
+				name: "Website Development",
+				link: "/websites",
+			},
+		],
+		[]
+	);
+
+	const routes = useMemo(
+		() => [
+			{
+				name: "Home",
+				link: "/",
+			},
+			{
+				name: "Services",
+				link: "/services",
+			},
+			...servicesMenuOptions.slice(1),
+			{
+				name: "The Revolution",
+				link: "/revolution",
+			},
+			{
+				name: "About Us",
+				link: "/about",
+			},
+			{
+				name: "Contact Us",
+				link: "/contact",
+			},
+		],
+		[servicesMenuOptions]
+	);
 
 	// Event Listeners
 	const handleChange = (event, newValue) => {
@@ -167,60 +201,23 @@ function Header() {
 	};
 
 	useEffect(() => {
-		switch (window.location.pathname) {
-			case "/":
-				if (value !== 0) {
-					setValue(0);
-				}
-				break;
-			case "/services":
+		const pathname = window.location.pathname;
+		const routeIndex = routes.findIndex(({ link }) => link === pathname);
+
+		if (routeIndex !== -1) {
+			if (routeIndex >= 1 && routeIndex <= 4) {
 				if (value !== 1) {
 					setValue(1);
-					setSelectedIndex(0);
+					setSelectedIndex(routeIndex - 1);
 				}
-				break;
-			case "/customsoftware":
-				if (value !== 1) {
-					setValue(1);
-					setSelectedIndex(1);
+			} else {
+				const index = routeIndex === 0 ? 0 : routeIndex - 3;
+				if (value !== index) {
+					setValue(index);
 				}
-				break;
-			case "/mobileapps":
-				if (value !== 1) {
-					setValue(1);
-					setSelectedIndex(2);
-				}
-				break;
-			case "/websites":
-				if (value !== 1) {
-					setValue(1);
-					setSelectedIndex(3);
-				}
-				break;
-			case "/revolution":
-				if (value !== 2) {
-					setValue(2);
-				}
-				break;
-			case "/about":
-				if (value !== 3) {
-					setValue(3);
-				}
-				break;
-			case "/contact":
-				if (value !== 4) {
-					setValue(4);
-				}
-				break;
-			case "/estimate":
-				if (value !== 5) {
-					setValue(5);
-				}
-				break;
-			default:
-				break;
+			}
 		}
-	}, [value, setValue]);
+	}, [routes, value, setValue]);
 
 	const tabs = (
 		<Fragment>
