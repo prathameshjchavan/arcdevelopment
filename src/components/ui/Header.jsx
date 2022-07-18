@@ -36,7 +36,7 @@ function ElevationScroll(props) {
 }
 
 function Header() {
-	const [value, setValue] = useState(-1);
+	const [value, setValue] = useState(false);
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [openDrawer, setOpenDrawer] = useState(false);
@@ -66,6 +66,7 @@ function Header() {
 		},
 		servicesMenu: {
 			marginTop: "-50px",
+			zIndex: theme.zIndex.modal + 2,
 			"& .MuiPaper-root": {
 				borderRadius: 0,
 			},
@@ -130,6 +131,9 @@ function Header() {
 		drawerItemEstimate: {
 			background: theme.palette.common.orange,
 		},
+		appbar: {
+			zIndex: theme.zIndex.modal + 1,
+		},
 	};
 
 	const servicesMenuOptions = useMemo(
@@ -177,6 +181,10 @@ function Header() {
 				name: "Contact Us",
 				link: "/contact",
 			},
+			{
+				name: "Free Estimate",
+				link: "/estimate",
+			},
 		],
 		[servicesMenuOptions]
 	);
@@ -222,7 +230,7 @@ function Header() {
 	const tabs = (
 		<Fragment>
 			<Tabs
-				value={value}
+				value={value > 4 ? false : value}
 				onChange={handleChange}
 				indicatorColor="primary"
 				textColor="inherit"
@@ -261,6 +269,7 @@ function Header() {
 				}}
 				sx={sx.servicesMenu}
 				disableAutoFocusItem
+				keepMounted
 			>
 				{servicesMenuOptions.map(({ name, link }, index) => (
 					<MenuItem
@@ -291,105 +300,35 @@ function Header() {
 				onOpen={() => setOpenDrawer(true)}
 				sx={sx.drawer}
 			>
+				<Box sx={{ ...theme.mixins.toolbar, ...sx.toolbar }} />
 				<List disablePadding>
-					<ListItem
-						onClick={() => {
-							setValue(0);
-							setOpenDrawer(false);
-						}}
-						divider
-						component={Link}
-						to="/"
-					>
-						<ListItemButton selected={value === 0} sx={sx.drawerItemButton}>
-							<ListItemText sx={sx.drawerItem} disableTypography>
-								Home
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem
-						onClick={() => {
-							setValue(1);
-							setOpenDrawer(false);
-						}}
-						divider
-						button
-						component={Link}
-						to="/services"
-					>
-						<ListItemButton selected={value === 1} sx={sx.drawerItemButton}>
-							<ListItemText sx={sx.drawerItem} disableTypography>
-								Services
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem
-						onClick={() => {
-							setValue(2);
-							setOpenDrawer(false);
-						}}
-						divider
-						button
-						component={Link}
-						to="/revolution"
-					>
-						<ListItemButton selected={value === 2} sx={sx.drawerItemButton}>
-							<ListItemText sx={sx.drawerItem} disableTypography>
-								The Revolution
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem
-						onClick={() => {
-							setValue(3);
-							setOpenDrawer(false);
-						}}
-						divider
-						button
-						component={Link}
-						to="/about"
-					>
-						<ListItemButton selected={value === 3} sx={sx.drawerItemButton}>
-							<ListItemText sx={sx.drawerItem} disableTypography>
-								About Us
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem
-						onClick={() => {
-							setValue(4);
-							setOpenDrawer(false);
-						}}
-						divider
-						button
-						component={Link}
-						to="/contact"
-					>
-						<ListItemButton selected={value === 4} sx={sx.drawerItemButton}>
-							<ListItemText sx={sx.drawerItem} disableTypography>
-								Contact Us
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem
-						onClick={() => {
-							setValue(5);
-							setOpenDrawer(false);
-						}}
-						divider
-						button
-						component={Link}
-						to="/estimate"
-					>
-						<ListItemButton
-							selected={value === 5}
-							sx={{ ...sx.drawerItemButton, ...sx.drawerItemEstimate }}
-						>
-							<ListItemText sx={sx.drawerItem} disableTypography>
-								Free Estimate
-							</ListItemText>
-						</ListItemButton>
-					</ListItem>
+					{[...routes.slice(0, 2), ...routes.slice(5)].map(
+						({ name, link }, index) => (
+							<ListItem
+								key={name}
+								onClick={() => {
+									setValue(index);
+									setOpenDrawer(false);
+								}}
+								divider
+								component={Link}
+								to={link}
+							>
+								<ListItemButton
+									selected={value === index}
+									sx={
+										index === 5
+											? { ...sx.drawerItemButton, ...sx.drawerItemEstimate }
+											: sx.drawerItemButton
+									}
+								>
+									<ListItemText sx={sx.drawerItem} disableTypography>
+										{name}
+									</ListItemText>
+								</ListItemButton>
+							</ListItem>
+						)
+					)}
 				</List>
 			</SwipeableDrawer>
 			<IconButton
@@ -405,7 +344,7 @@ function Header() {
 	return (
 		<React.Fragment>
 			<ElevationScroll>
-				<AppBar position="fixed">
+				<AppBar sx={sx.appbar} position="fixed">
 					<Toolbar sx={sx.toolbar} disableGutters>
 						<Button
 							sx={sx.logoContainer}
