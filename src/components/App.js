@@ -1,13 +1,14 @@
 // Module Imports
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Footer from "./ui/Footer";
 
 // Local Imports
 import Header from "./ui/Header";
 import theme from "./ui/theme";
 
 const Home = () => {
-	return <div>Home</div>;
+	return <div style={{ height: "2000px" }}>Home</div>;
 };
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 					<Route path="/contact" element={<Home />} />
 					<Route path="/estimate" element={<Home />} />
 				</Routes>
+				<Footer />
 			</BrowserRouter>
 		</ThemeProvider>
 	);
