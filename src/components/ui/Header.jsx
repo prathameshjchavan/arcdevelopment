@@ -9,16 +9,16 @@ import {
 	Tab,
 	Tabs,
 	Toolbar,
+	SwipeableDrawer,
+	IconButton,
+	List,
+	ListItem,
+	ListItemText,
 } from "@mui/material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import MenuIcon from "@mui/icons-material/Menu";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 
@@ -47,6 +47,7 @@ function Header() {
 		typeof navigator !== "undefined" &&
 		/iPad|iPhone|iPod/.test(navigator.userAgent);
 
+	// Common sx prop object for all components
 	const sx = {
 		tab: {
 			...theme.typography.tab,
@@ -208,6 +209,7 @@ function Header() {
 		setAnchorEl(null);
 	};
 
+	// For setting tab value on refresh/reload
 	useEffect(() => {
 		const pathname = window.location.pathname;
 		const routeIndex = routes.findIndex(({ link }) => link === pathname);
