@@ -226,7 +226,7 @@ function Header() {
 				}
 			}
 		}
-	}, [routes, pathname, value, setValue]);
+	}, [routes, pathname, value, setValue, selectedIndex, setSelectedIndex]);
 
 	const tabs = (
 		<Fragment>
