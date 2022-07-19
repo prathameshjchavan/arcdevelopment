@@ -19,7 +19,7 @@ import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 
 // Elevation Scroll Effect
@@ -42,6 +42,7 @@ function Header() {
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const openMenu = Boolean(anchorEl);
 	const theme = useTheme();
+	const { pathname } = useLocation();
 	const matches = useMediaQuery(theme.breakpoints.down("tabs"));
 	const iOS =
 		typeof navigator !== "undefined" &&
@@ -211,15 +212,13 @@ function Header() {
 
 	// For setting tab value on refresh/reload
 	useEffect(() => {
-		const pathname = window.location.pathname;
 		const routeIndex = routes.findIndex(({ link }) => link === pathname);
 
 		if (routeIndex !== -1) {
 			if (routeIndex >= 1 && routeIndex <= 4) {
-				if (value !== 1) {
-					setValue(1);
-					setSelectedIndex(routeIndex - 1);
-				}
+				if (value !== 1) setValue(1);
+
+				if (selectedIndex !== routeIndex - 1) setSelectedIndex(routeIndex - 1);
 			} else {
 				const index = routeIndex === 0 ? 0 : routeIndex - 3;
 				if (value !== index) {
@@ -227,7 +226,7 @@ function Header() {
 				}
 			}
 		}
-	}, [routes, value, setValue]);
+	}, [routes, pathname, value, setValue]);
 
 	const tabs = (
 		<Fragment>
@@ -263,7 +262,6 @@ function Header() {
 				id="services-menu"
 				anchorEl={anchorEl}
 				open={openMenu}
-				onClose={handleCloseMenu}
 				MenuListProps={{
 					"aria-labelledby": "services",
 					role: "listbox",
