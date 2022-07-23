@@ -34,6 +34,13 @@ export default createTheme({
 			fontSize: "1rem",
 			color: "#fff",
 		},
+		h2: {
+			fontFamily: "Raleway",
+			fontWeight: 700,
+			fontSize: "2.5rem",
+			color: arcBlue,
+			lineHeight: 1.5,
+		},
 	},
 	breakpoints: {
 		values: {
@@ -45,6 +52,7 @@ export default createTheme({
 			xl: 1536,
 			// custom
 			tabs: 1290,
+			hero: 773,
 		},
 	},
 });
