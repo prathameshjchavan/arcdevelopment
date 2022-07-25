@@ -87,6 +87,7 @@ export default createTheme({
 			customSoftware: 921,
 			mobileApp: 1041,
 			websites: 854,
+			callToAction: 889,
 		},
 	},
 });

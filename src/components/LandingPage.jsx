@@ -15,6 +15,7 @@ import ButtonArrow from "../components/ui/ButtonArrow";
 
 // Animations Data
 import animationData from "../animations/landinganimation/data";
+import CallToAction from "./ui/CallToAction";
 
 function LandingPage() {
 	const theme = useTheme();
@@ -418,6 +419,10 @@ function LandingPage() {
 					</Grid>
 					<Background image="infoBackground" />
 				</Grid>
+			</Grid>
+			{/* -----Call To Action Block----- */}
+			<Grid item>
+				<CallToAction />
 			</Grid>
 		</Grid>
 	);
