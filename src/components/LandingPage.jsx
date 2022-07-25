@@ -3,6 +3,8 @@ import {
 	Grid,
 	Button,
 	Typography,
+	Card,
+	CardContent,
 	useTheme,
 	useMediaQuery,
 } from "@mui/material";
@@ -73,13 +75,13 @@ function LandingPage() {
 		buttonContainer: {
 			marginTop: "1em",
 		},
-		learnButtonHero: {
+		learnButtonLarge: {
 			...theme.typography.learnButton,
 			fontSize: "0.9rem",
 			height: 45,
 			width: 145,
 		},
-		learnButton: {
+		learnButtonSmall: {
 			...theme.typography.learnButton,
 			fontSize: "0.7rem",
 			height: 35,
@@ -89,6 +91,23 @@ function LandingPage() {
 		},
 		servicesContainer: {
 			marginTop: "12em",
+		},
+		revolutionCard: {
+			position: "absolute",
+			boxShadow: theme.shadows[10],
+			borderRadius: "15px",
+			padding: "10em",
+			[theme.breakpoints.down("md")]: {
+				paddingLeft: "5em",
+				paddingRight: "5em",
+				borderRadius: 0,
+			},
+			[theme.breakpoints.down("sm")]: {
+				paddingTop: "8em",
+				paddingBottom: "8em",
+				paddingLeft: 0,
+				paddingRight: 0,
+			},
 		},
 	};
 
@@ -103,6 +122,15 @@ function LandingPage() {
 			marginLeft: 0,
 			marginTop: "2em",
 		},
+	}));
+
+	const RevolutionBackground = styled("div")(() => ({
+		backgroundImage: `url("/assets/repeatingBackground.svg")`,
+		backgroundPosition: "center",
+		backgroundSize: "cover",
+		backgroundRepeat: "no-repeat",
+		height: "100%",
+		width: "100%",
 	}));
 
 	return (
@@ -128,7 +156,7 @@ function LandingPage() {
 								</Button>
 							</Grid>
 							<Grid item>
-								<Button variant="outlined" sx={sx.learnButtonHero}>
+								<Button variant="outlined" sx={sx.learnButtonLarge}>
 									<span style={{ marginRight: 10 }}>Learn More</span>
 									<ButtonArrow
 										width={15}
@@ -170,7 +198,7 @@ function LandingPage() {
 							Complete digital solutions, from investigation to&nbsp;
 							<SpecialText>celebration</SpecialText>.
 						</Typography>
-						<Button variant="outlined" sx={sx.learnButton}>
+						<Button variant="outlined" sx={sx.learnButtonSmall}>
 							<span style={{ marginRight: 10 }}>Learn More</span>
 							<ButtonArrow
 								width={10}
@@ -216,7 +244,7 @@ function LandingPage() {
 							Integrate your web experience or create a standalone app
 							{mobileAppVertical ? null : <br />} with either mobile platform.
 						</Typography>
-						<Button variant="outlined" sx={sx.learnButton}>
+						<Button variant="outlined" sx={sx.learnButtonSmall}>
 							<span style={{ marginRight: 10 }}>Learn More</span>
 							<ButtonArrow
 								width={10}
@@ -258,7 +286,7 @@ function LandingPage() {
 						<Typography variant="subtitle1">
 							Optimized for Search Engines, built for speed.
 						</Typography>
-						<Button variant="outlined" sx={sx.learnButton}>
+						<Button variant="outlined" sx={sx.learnButtonSmall}>
 							<span style={{ marginRight: 10 }}>Learn More</span>
 							<ButtonArrow
 								width={10}
@@ -274,6 +302,45 @@ function LandingPage() {
 							alt="website icon"
 						/>
 					</Grid>
+				</Grid>
+			</Grid>
+			<Grid item>
+				<Grid
+					container
+					style={{ height: "100em", marginTop: "12em" }}
+					alignItems="center"
+					justifyContent="center"
+				>
+					<Card sx={sx.revolutionCard}>
+						<CardContent>
+							<Grid
+								container
+								direction="column"
+								style={{ textAlign: "center" }}
+							>
+								<Grid item>
+									<Typography variant="h3" gutterBottom>
+										The Revolution
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography variant="subtitle1">
+										Visionary insights coupled with cutting-edge technology is a
+										recipe for revolution.
+									</Typography>
+									<Button variant="outlined" sx={sx.learnButtonLarge}>
+										<span style={{ marginRight: 10 }}>Learn More</span>
+										<ButtonArrow
+											width={15}
+											height={15}
+											fill={theme.palette.common.blue}
+										/>
+									</Button>
+								</Grid>
+							</Grid>
+						</CardContent>
+					</Card>
+					<RevolutionBackground />
 				</Grid>
 			</Grid>
 		</Grid>
