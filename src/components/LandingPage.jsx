@@ -21,6 +21,7 @@ function LandingPage() {
 		theme.breakpoints.down("customSoftware")
 	);
 	const mobileAppVertical = useMediaQuery(theme.breakpoints.down("mobileApp"));
+	const websitesVertical = useMediaQuery(theme.breakpoints.down("websites"));
 
 	const defaultOptions = {
 		loop: true,
@@ -88,10 +89,6 @@ function LandingPage() {
 		},
 		servicesContainer: {
 			marginTop: "12em",
-			// create a different breakpoint for service container
-			[theme.breakpoints.down("customSoftware")]: {
-				padding: "25px",
-			},
 		},
 	};
 
@@ -100,17 +97,9 @@ function LandingPage() {
 		color: theme.palette.common.orange,
 	}));
 
-	const CustomSoftwareIcon = styled("img")(() => ({
+	const Icon = styled("img")(({ breakpoint }) => ({
 		marginLeft: "2em",
-		[theme.breakpoints.down("customSoftware")]: {
-			marginLeft: 0,
-			marginTop: "2em",
-		},
-	}));
-
-	const MobileAppIcon = styled("img")(() => ({
-		marginLeft: "2em",
-		[theme.breakpoints.down("mobileApp")]: {
+		[theme.breakpoints.down(breakpoint)]: {
 			marginLeft: 0,
 			marginTop: "2em",
 		},
@@ -170,6 +159,7 @@ function LandingPage() {
 						style={{
 							marginLeft: customSoftwareVertical ? 0 : "5em",
 							textAlign: customSoftwareVertical ? "center" : undefined,
+							padding: customSoftwareVertical ? "25px" : 0,
 						}}
 					>
 						<Typography variant="h4">Custom Software Development</Typography>
@@ -189,8 +179,12 @@ function LandingPage() {
 							/>
 						</Button>
 					</Grid>
-					<Grid item>
-						<CustomSoftwareIcon
+					<Grid
+						item
+						style={{ marginRight: customSoftwareVertical ? 0 : "5em" }}
+					>
+						<Icon
+							breakpoint="customSoftware"
 							src="/assets/Custom Software Icon.svg"
 							alt="custom software icon"
 						/>
@@ -211,6 +205,7 @@ function LandingPage() {
 						style={{
 							marginLeft: mobileAppVertical ? 0 : "5em",
 							textAlign: mobileAppVertical ? "center" : undefined,
+							padding: mobileAppVertical ? "25px" : 0,
 						}}
 					>
 						<Typography variant="h4">iOS/Android App Development</Typography>
@@ -231,9 +226,52 @@ function LandingPage() {
 						</Button>
 					</Grid>
 					<Grid item style={{ marginRight: mobileAppVertical ? 0 : "5em" }}>
-						<MobileAppIcon
+						<Icon
+							breakpoint="mobileApp"
 							src="/assets/mobileIcon.svg"
 							alt="mobile phone icon"
+						/>
+					</Grid>
+				</Grid>
+			</Grid>
+			{/* -----Websites Block----- */}
+			<Grid item>
+				<Grid
+					container
+					sx={sx.servicesContainer}
+					direction={websitesVertical ? "column" : "row"}
+					justifyContent={websitesVertical ? "center" : "flex-start"}
+					alignItems={websitesVertical ? "center" : undefined}
+				>
+					<Grid
+						item
+						style={{
+							marginLeft: websitesVertical ? 0 : "5em",
+							textAlign: websitesVertical ? "center" : undefined,
+							padding: websitesVertical ? "25px" : 0,
+						}}
+					>
+						<Typography variant="h4">Website Development</Typography>
+						<Typography variant="subtitle1" sx={sx.subtitle}>
+							Reach More. Discover More. Sell More.
+						</Typography>
+						<Typography variant="subtitle1">
+							Optimized for Search Engines, built for speed.
+						</Typography>
+						<Button variant="outlined" sx={sx.learnButton}>
+							<span style={{ marginRight: 10 }}>Learn More</span>
+							<ButtonArrow
+								width={10}
+								height={10}
+								fill={theme.palette.common.blue}
+							/>
+						</Button>
+					</Grid>
+					<Grid item style={{ marginRight: websitesVertical ? 0 : "5em" }}>
+						<Icon
+							breakpoint="websites"
+							src="/assets/websiteIcon.svg"
+							alt="website icon"
 						/>
 					</Grid>
 				</Grid>
