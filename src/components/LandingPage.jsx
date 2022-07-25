@@ -18,6 +18,8 @@ import animationData from "../animations/landinganimation/data";
 
 function LandingPage() {
 	const theme = useTheme();
+	const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+	const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 	const heroVertical = useMediaQuery(theme.breakpoints.down("hero"));
 	const customSoftwareVertical = useMediaQuery(
 		theme.breakpoints.down("customSoftware")
@@ -124,8 +126,8 @@ function LandingPage() {
 		},
 	}));
 
-	const RevolutionBackground = styled("div")(() => ({
-		backgroundImage: `url("/assets/repeatingBackground.svg")`,
+	const Background = styled("div")(({ image }) => ({
+		backgroundImage: `url("/assets/${image}.svg")`,
 		backgroundPosition: "center",
 		backgroundSize: "cover",
 		backgroundRepeat: "no-repeat",
@@ -304,6 +306,7 @@ function LandingPage() {
 					</Grid>
 				</Grid>
 			</Grid>
+			{/* -----Revolution Block----- */}
 			<Grid item>
 				<Grid
 					container
@@ -340,7 +343,80 @@ function LandingPage() {
 							</Grid>
 						</CardContent>
 					</Card>
-					<RevolutionBackground />
+					<Background image="repeatingBackground" />
+				</Grid>
+			</Grid>
+			{/* -----Information Block----- */}
+			<Grid item>
+				<Grid container style={{ height: "80em" }} alignItems="center">
+					<Grid
+						item
+						container
+						style={{
+							position: "absolute",
+							textAlign: matchesSM ? "center" : "inherit",
+						}}
+						flexDirection={matchesSM ? "column" : "row"}
+						spacing={matchesSM ? 10 : 0}
+					>
+						<Grid
+							item
+							sm
+							style={{
+								marginLeft: matchesSM ? 0 : matchesMD ? "2em" : "5em",
+							}}
+						>
+							<Grid container direction="column">
+								<Grid item>
+									<Typography variant="h2" style={{ color: "#fff" }}>
+										About Us
+									</Typography>
+									<Typography variant="subtitle2">
+										Let's get personal.
+									</Typography>
+									<Button
+										variant="outlined"
+										style={{ color: "#fff", borderColor: "#fff" }}
+										sx={sx.learnButtonSmall}
+									>
+										<span style={{ marginRight: 10 }}>Learn More</span>
+										<ButtonArrow width={10} height={10} fill="#fff" />
+									</Button>
+								</Grid>
+							</Grid>
+						</Grid>
+						<Grid
+							item
+							sm
+							style={{
+								marginRight: matchesSM ? 0 : matchesMD ? "2em" : "5em",
+								textAlign: matchesSM ? "center" : "right",
+							}}
+						>
+							<Grid container direction="column">
+								<Grid item>
+									<Typography variant="h2" style={{ color: "#fff" }}>
+										Contact Us
+									</Typography>
+									<Typography variant="subtitle2">
+										Say hello!{" "}
+										<span role="img" aria-label="waving hand">
+											👋
+										</span>
+									</Typography>
+									<Button
+										variant="outlined"
+										style={{ color: "#fff", borderColor: "#fff" }}
+										sx={sx.learnButtonSmall}
+									>
+										<span style={{ marginRight: 10 }}>Learn More</span>
+										<ButtonArrow width={10} height={10} fill="#fff" />
+									</Button>
+								</Grid>
+							</Grid>
+						</Grid>
+					</Grid>
+					<Background image="infoBackground" />
 				</Grid>
 			</Grid>
 		</Grid>
