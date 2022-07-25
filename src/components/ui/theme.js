@@ -79,7 +79,8 @@ export default createTheme({
 			// custom
 			tabs: 1290,
 			hero: 773,
-			services: 841,
+			customSoftware: 841,
+			mobileApp: 1041,
 		},
 	},
 });

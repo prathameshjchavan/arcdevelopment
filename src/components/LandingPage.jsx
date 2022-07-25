@@ -17,7 +17,10 @@ import animationData from "../animations/landinganimation/data";
 function LandingPage() {
 	const theme = useTheme();
 	const heroVertical = useMediaQuery(theme.breakpoints.down("hero"));
-	const servicesVertical = useMediaQuery(theme.breakpoints.down("services"));
+	const customSoftwareVertical = useMediaQuery(
+		theme.breakpoints.down("customSoftware")
+	);
+	const mobileAppVertical = useMediaQuery(theme.breakpoints.down("mobileApp"));
 
 	const defaultOptions = {
 		loop: true,
@@ -79,16 +82,14 @@ function LandingPage() {
 			...theme.typography.learnButton,
 			fontSize: "0.7rem",
 			height: 35,
-			[theme.breakpoints.down("services")]: {
-				marginBottom: "2em",
-			},
 		},
 		subtitle: {
 			marginBottom: "1em",
 		},
 		servicesContainer: {
 			marginTop: "12em",
-			[theme.breakpoints.down("services")]: {
+			// create a different breakpoint for service container
+			[theme.breakpoints.down("customSoftware")]: {
 				padding: "25px",
 			},
 		},
@@ -99,10 +100,19 @@ function LandingPage() {
 		color: theme.palette.common.orange,
 	}));
 
-	const Icon = styled("img")(() => ({
+	const CustomSoftwareIcon = styled("img")(() => ({
 		marginLeft: "2em",
-		[theme.breakpoints.down("services")]: {
+		[theme.breakpoints.down("customSoftware")]: {
 			marginLeft: 0,
+			marginTop: "2em",
+		},
+	}));
+
+	const MobileAppIcon = styled("img")(() => ({
+		marginLeft: "2em",
+		[theme.breakpoints.down("mobileApp")]: {
+			marginLeft: 0,
+			marginTop: "2em",
 		},
 	}));
 
@@ -146,19 +156,20 @@ function LandingPage() {
 					</Grid>
 				</Grid>
 			</Grid>
-			{/* -----Services Block----- */}
+			{/* -----Custom Software Block----- */}
 			<Grid item>
 				<Grid
 					container
 					sx={sx.servicesContainer}
-					direction={servicesVertical ? "column" : "row"}
-					alignItems={servicesVertical ? "center" : undefined}
+					direction={customSoftwareVertical ? "column" : "row"}
+					justifyContent={customSoftwareVertical ? "center" : "flex-start"}
+					alignItems={customSoftwareVertical ? "center" : undefined}
 				>
 					<Grid
 						item
 						style={{
-							marginLeft: servicesVertical ? 0 : "5em",
-							textAlign: servicesVertical ? "center" : undefined,
+							marginLeft: customSoftwareVertical ? 0 : "5em",
+							textAlign: customSoftwareVertical ? "center" : undefined,
 						}}
 					>
 						<Typography variant="h4">Custom Software Development</Typography>
@@ -179,9 +190,50 @@ function LandingPage() {
 						</Button>
 					</Grid>
 					<Grid item>
-						<Icon
+						<CustomSoftwareIcon
 							src="/assets/Custom Software Icon.svg"
 							alt="custom software icon"
+						/>
+					</Grid>
+				</Grid>
+			</Grid>
+			{/* -----iOS/Android Block----- */}
+			<Grid item>
+				<Grid
+					container
+					sx={sx.servicesContainer}
+					direction={mobileAppVertical ? "column" : "row"}
+					justifyContent={mobileAppVertical ? "center" : "flex-end"}
+					alignItems={mobileAppVertical ? "center" : undefined}
+				>
+					<Grid
+						item
+						style={{
+							marginLeft: mobileAppVertical ? 0 : "5em",
+							textAlign: mobileAppVertical ? "center" : undefined,
+						}}
+					>
+						<Typography variant="h4">iOS/Android App Development</Typography>
+						<Typography variant="subtitle1" sx={sx.subtitle}>
+							Extend Functionality. Extend Access. Increase Engagement.
+						</Typography>
+						<Typography variant="subtitle1">
+							Integrate your web experience or create a standalone app
+							{mobileAppVertical ? null : <br />} with either mobile platform.
+						</Typography>
+						<Button variant="outlined" sx={sx.learnButton}>
+							<span style={{ marginRight: 10 }}>Learn More</span>
+							<ButtonArrow
+								width={10}
+								height={10}
+								fill={theme.palette.common.blue}
+							/>
+						</Button>
+					</Grid>
+					<Grid item style={{ marginRight: mobileAppVertical ? 0 : "5em" }}>
+						<MobileAppIcon
+							src="/assets/mobileIcon.svg"
+							alt="mobile phone icon"
 						/>
 					</Grid>
 				</Grid>
