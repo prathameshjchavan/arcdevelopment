@@ -6,6 +6,7 @@ import {
 	useTheme,
 	useMediaQuery,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import React from "react";
 import Lottie from "react-lottie";
 import ButtonArrow from "../components/ui/ButtonArrow";
@@ -16,6 +17,7 @@ import animationData from "../animations/landinganimation/data";
 function LandingPage() {
 	const theme = useTheme();
 	const heroVertical = useMediaQuery(theme.breakpoints.down("hero"));
+	const servicesVertical = useMediaQuery(theme.breakpoints.down("services"));
 
 	const defaultOptions = {
 		loop: true,
@@ -68,21 +70,45 @@ function LandingPage() {
 			marginTop: "1em",
 		},
 		learnButtonHero: {
-			borderColor: theme.palette.common.blue,
-			color: theme.palette.common.blue,
-			borderWidth: 2,
-			textTransform: "none",
-			borderRadius: 50,
-			fontFamily: "Roboto",
-			fontWeight: "bold",
+			...theme.typography.learnButton,
 			fontSize: "0.9rem",
 			height: 45,
 			width: 145,
 		},
+		learnButton: {
+			...theme.typography.learnButton,
+			fontSize: "0.7rem",
+			height: 35,
+			[theme.breakpoints.down("services")]: {
+				marginBottom: "2em",
+			},
+		},
+		subtitle: {
+			marginBottom: "1em",
+		},
+		servicesContainer: {
+			marginTop: "12em",
+			[theme.breakpoints.down("services")]: {
+				padding: "25px",
+			},
+		},
 	};
+
+	const SpecialText = styled("span")(({ theme }) => ({
+		fontFamily: "Pacifico",
+		color: theme.palette.common.orange,
+	}));
+
+	const Icon = styled("img")(() => ({
+		marginLeft: "2em",
+		[theme.breakpoints.down("services")]: {
+			marginLeft: 0,
+		},
+	}));
 
 	return (
 		<Grid container direction="column" sx={sx.mainContainer}>
+			{/* -----Hero Block----- */}
 			<Grid item>
 				<Grid
 					container
@@ -120,28 +146,46 @@ function LandingPage() {
 					</Grid>
 				</Grid>
 			</Grid>
-			{/* <Grid item>
-				<Grid container>
+			{/* -----Services Block----- */}
+			<Grid item>
+				<Grid
+					container
+					sx={sx.servicesContainer}
+					direction={servicesVertical ? "column" : "row"}
+					alignItems={servicesVertical ? "center" : undefined}
+				>
 					<Grid
-						xs
 						item
-						sx={{ backgroundColor: "red", height: "200px", minWidth: "400px" }}
-					>
-						Hello
-					</Grid>
-					<Grid
-						xs
-						item
-						sx={{
-							backgroundColor: "green",
-							height: "200px",
-							minWidth: "300px",
+						style={{
+							marginLeft: servicesVertical ? 0 : "5em",
+							textAlign: servicesVertical ? "center" : undefined,
 						}}
 					>
-						Hello
+						<Typography variant="h4">Custom Software Development</Typography>
+						<Typography variant="subtitle1" sx={sx.subtitle}>
+							Save Energy. Save Time. Save Money.
+						</Typography>
+						<Typography variant="subtitle1">
+							Complete digital solutions, from investigation to&nbsp;
+							<SpecialText>celebration</SpecialText>.
+						</Typography>
+						<Button variant="outlined" sx={sx.learnButton}>
+							<span style={{ marginRight: 10 }}>Learn More</span>
+							<ButtonArrow
+								width={10}
+								height={10}
+								fill={theme.palette.common.blue}
+							/>
+						</Button>
+					</Grid>
+					<Grid item>
+						<Icon
+							src="/assets/Custom Software Icon.svg"
+							alt="custom software icon"
+						/>
 					</Grid>
 				</Grid>
-			</Grid> */}
+			</Grid>
 		</Grid>
 	);
 }
