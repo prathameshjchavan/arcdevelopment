@@ -265,6 +265,7 @@ function Header() {
 				id="services-menu"
 				anchorEl={anchorEl}
 				open={openMenu}
+				onClose={handleCloseMenu}
 				MenuListProps={{
 					"aria-labelledby": "services",
 					role: "listbox",
@@ -286,7 +287,13 @@ function Header() {
 					</MenuItem>
 				))}
 			</Menu>
-			<Button sx={sx.button} variant="contained" color="secondary">
+			<Button
+				sx={sx.button}
+				component={Link}
+				to="/estimate"
+				variant="contained"
+				color="secondary"
+			>
 				Free Estimate
 			</Button>
 		</Fragment>

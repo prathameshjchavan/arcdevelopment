@@ -12,10 +12,13 @@ import { styled } from "@mui/material/styles";
 import React from "react";
 import Lottie from "react-lottie";
 import ButtonArrow from "../components/ui/ButtonArrow";
+import { Link } from "react-router-dom";
+
+// Local Imports
+import CallToAction from "./ui/CallToAction";
 
 // Animations Data
 import animationData from "../animations/landinganimation/data";
-import CallToAction from "./ui/CallToAction";
 
 function LandingPage() {
 	const theme = useTheme();
@@ -49,16 +52,16 @@ function LandingPage() {
 		},
 		heroTextContainer: {
 			minWidth: "21.5em",
-			marginLeft: "1em",
+			marginLeft: "2em",
 			[theme.breakpoints.down("hero")]: {
 				marginLeft: 0,
 			},
 		},
 		animation: {
-			maxWidth: "50em",
+			maxWidth: "50em !important",
 			minWidth: "21em",
 			marginTop: "2em",
-			marginLeft: "10%",
+			marginLeft: "9%",
 			[theme.breakpoints.down("hero")]: {
 				maxWidth: "30em",
 			},
@@ -154,12 +157,22 @@ function LandingPage() {
 						</Typography>
 						<Grid container justifyContent="center" sx={sx.buttonContainer}>
 							<Grid item>
-								<Button variant="contained" sx={sx.estimateButton}>
+								<Button
+									variant="contained"
+									component={Link}
+									to="/estimate"
+									sx={sx.estimateButton}
+								>
 									Free Estimate
 								</Button>
 							</Grid>
 							<Grid item>
-								<Button variant="outlined" sx={sx.learnButtonLarge}>
+								<Button
+									variant="outlined"
+									component={Link}
+									to="/revolution"
+									sx={sx.learnButtonLarge}
+								>
 									<span style={{ marginRight: 10 }}>Learn More</span>
 									<ButtonArrow
 										width={15}
@@ -201,7 +214,12 @@ function LandingPage() {
 							Complete digital solutions, from investigation to&nbsp;
 							<SpecialText>celebration</SpecialText>.
 						</Typography>
-						<Button variant="outlined" sx={sx.learnButtonSmall}>
+						<Button
+							variant="outlined"
+							component={Link}
+							to="/customsoftware"
+							sx={sx.learnButtonSmall}
+						>
 							<span style={{ marginRight: 10 }}>Learn More</span>
 							<ButtonArrow
 								width={10}
@@ -247,7 +265,12 @@ function LandingPage() {
 							Integrate your web experience or create a standalone app
 							{mobileAppVertical ? null : <br />} with either mobile platform.
 						</Typography>
-						<Button variant="outlined" sx={sx.learnButtonSmall}>
+						<Button
+							variant="outlined"
+							component={Link}
+							to="/mobileapps"
+							sx={sx.learnButtonSmall}
+						>
 							<span style={{ marginRight: 10 }}>Learn More</span>
 							<ButtonArrow
 								width={10}
@@ -289,7 +312,12 @@ function LandingPage() {
 						<Typography variant="subtitle1">
 							Optimized for Search Engines, built for speed.
 						</Typography>
-						<Button variant="outlined" sx={sx.learnButtonSmall}>
+						<Button
+							variant="outlined"
+							component={Link}
+							to="/websites"
+							sx={sx.learnButtonSmall}
+						>
 							<span style={{ marginRight: 10 }}>Learn More</span>
 							<ButtonArrow
 								width={10}
@@ -332,7 +360,12 @@ function LandingPage() {
 										Visionary insights coupled with cutting-edge technology is a
 										recipe for revolution.
 									</Typography>
-									<Button variant="outlined" sx={sx.learnButtonLarge}>
+									<Button
+										variant="outlined"
+										component={Link}
+										to="/revolution"
+										sx={sx.learnButtonLarge}
+									>
 										<span style={{ marginRight: 10 }}>Learn More</span>
 										<ButtonArrow
 											width={15}
@@ -377,6 +410,8 @@ function LandingPage() {
 									</Typography>
 									<Button
 										variant="outlined"
+										component={Link}
+										to="/about"
 										style={{ color: "#fff", borderColor: "#fff" }}
 										sx={sx.learnButtonSmall}
 									>
@@ -400,13 +435,15 @@ function LandingPage() {
 										Contact Us
 									</Typography>
 									<Typography variant="subtitle2">
-										Say hello!{" "}
+										Say hello!&nbsp;
 										<span role="img" aria-label="waving hand">
 											👋
 										</span>
 									</Typography>
 									<Button
 										variant="outlined"
+										component={Link}
+										to="/contact"
 										style={{ color: "#fff", borderColor: "#fff" }}
 										sx={sx.learnButtonSmall}
 									>

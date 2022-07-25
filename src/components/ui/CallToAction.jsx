@@ -1,3 +1,4 @@
+// Module Imports
 import React from "react";
 import {
 	Grid,
@@ -7,6 +8,9 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Link } from "react-router-dom";
+
+// Local Imports
 import ButtonArrow from "./ButtonArrow";
 
 function CallToAction() {
@@ -29,6 +33,9 @@ function CallToAction() {
 			width: 205,
 			backgroundColor: theme.palette.common.orange,
 			fontSize: "1.5rem",
+			"&:hover": {
+				backgroundColor: theme.palette.secondary.light,
+			},
 			marginRight: callToActionVertical ? 0 : "5em",
 			marginLeft: callToActionVertical ? 0 : "2em",
 			marginTop: callToActionVertical ? "1em" : 0,
@@ -83,7 +90,12 @@ function CallToAction() {
 							<Typography variant="subtitle2" style={{ fontSize: "1.5rem" }}>
 								Take advantage of the 21st century
 							</Typography>
-							<Button variant="outlined" sx={sx.learnButtonSmall}>
+							<Button
+								variant="outlined"
+								component={Link}
+								to="/revolution"
+								sx={sx.learnButtonSmall}
+							>
 								<span style={{ marginRight: 5 }}>Learn More</span>
 								<ButtonArrow
 									width={10}
@@ -95,7 +107,12 @@ function CallToAction() {
 					</Grid>
 				</Grid>
 				<Grid item>
-					<Button sx={sx.estimateButton} variant="contained">
+					<Button
+						component={Link}
+						to="/estimate"
+						sx={sx.estimateButton}
+						variant="contained"
+					>
 						Free Estimate
 					</Button>
 				</Grid>
