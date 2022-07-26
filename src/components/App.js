@@ -1,11 +1,12 @@
 // Module Imports
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./LandingPage";
-import Footer from "./ui/Footer";
 
 // Local Imports
 import Header from "./ui/Header";
+import LandingPage from "./LandingPage";
+import Services from "./Services";
+import Footer from "./ui/Footer";
 import theme from "./ui/theme";
 
 const Home = () => {
@@ -19,7 +20,7 @@ function App() {
 				<Header />
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
-					<Route path="/services" element={<Home />} />
+					<Route path="/services" element={<Services />} />
 					<Route path="/customsoftware" element={<Home />} />
 					<Route path="/mobileapps" element={<Home />} />
 					<Route path="/websites" element={<Home />} />

@@ -11,11 +11,12 @@ import {
 import { styled } from "@mui/material/styles";
 import React from "react";
 import Lottie from "react-lottie";
-import ButtonArrow from "../components/ui/ButtonArrow";
 import { Link } from "react-router-dom";
 
 // Local Imports
 import CallToAction from "./ui/CallToAction";
+import ButtonArrow from "./ui/ButtonArrow";
+import { Icon, SpecialText } from "./utils/styledComponents";
 
 // Animations Data
 import animationData from "../animations/landinganimation/data";
@@ -116,19 +117,6 @@ function LandingPage() {
 			},
 		},
 	};
-
-	const SpecialText = styled("span")(({ theme }) => ({
-		fontFamily: "Pacifico",
-		color: theme.palette.common.orange,
-	}));
-
-	const Icon = styled("img")(({ breakpoint }) => ({
-		marginLeft: "2em",
-		[theme.breakpoints.down(breakpoint)]: {
-			marginLeft: 0,
-			marginTop: "2em",
-		},
-	}));
 
 	const Background = styled("div")(({ image }) => ({
 		backgroundImage: `url("/assets/${image}.svg")`,
