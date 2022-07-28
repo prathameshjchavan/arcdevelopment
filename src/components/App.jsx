@@ -9,6 +9,7 @@ import Services from "./Services";
 import Footer from "./ui/Footer";
 import theme from "./ui/theme";
 import CustomSoftware from "./CustomSoftware";
+import MobileApps from "./MobileApps";
 
 const Home = () => {
 	return <div>Home</div>;
@@ -23,7 +24,7 @@ function App() {
 					<Route path="/" element={<LandingPage />} />
 					<Route path="/services" element={<Services />} />
 					<Route path="/customsoftware" element={<CustomSoftware />} />
-					<Route path="/mobileapps" element={<Home />} />
+					<Route path="/mobileapps" element={<MobileApps />} />
 					<Route path="/websites" element={<Home />} />
 					<Route path="/revolution" element={<Home />} />
 					<Route path="/about" element={<Home />} />

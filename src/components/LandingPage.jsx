@@ -138,7 +138,11 @@ function LandingPage() {
 					flexDirection={heroVertical ? "column" : "row"}
 				>
 					<Grid sm item sx={sx.heroTextContainer}>
-						<Typography variant="h2" align="center">
+						<Typography
+							variant="h2"
+							style={{ margin: matchesSM ? "0 0.5em" : 0 }}
+							align="center"
+						>
 							Bringing West Coast Technology
 							<br />
 							to the Midwest
