@@ -14,7 +14,9 @@ import {
 	List,
 	ListItem,
 	ListItemText,
+	Collapse,
 } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -40,6 +42,7 @@ function Header() {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const [openDrawer, setOpenDrawer] = useState(false);
+	const [openServicesList, setOpenServicesList] = useState(false);
 	const openMenu = Boolean(anchorEl);
 	const theme = useTheme();
 	const { pathname } = useLocation();
@@ -113,7 +116,7 @@ function Header() {
 				padding: 0,
 			},
 			"& .MuiListItemButton-root": {
-				padding: "8px 16px",
+				padding: "12px 16px",
 			},
 			"& .Mui-selected": {
 				background: "#074f81 !important",
@@ -128,7 +131,6 @@ function Header() {
 			opacity: 0.7,
 		},
 		drawerItemButton: {
-			padding: 0,
 			"&:hover": {
 				background: "transparent",
 			},
@@ -136,8 +138,21 @@ function Header() {
 		drawerItemEstimate: {
 			background: theme.palette.common.orange,
 		},
+		drawerList: {
+			width: "11em",
+		},
 		appbar: {
 			zIndex: theme.zIndex.modal + 1,
+		},
+		icon: {
+			color: theme.palette.common.orange,
+			transform: openServicesList ? "rotate(180deg)" : undefined,
+			transition: "transform 200ms ease-in-out",
+		},
+		servicesMenuListItem: {
+			"& .Mui-selected": {
+				backgroundColor: "#3683b7 !important;",
+			},
 		},
 	};
 
@@ -211,6 +226,12 @@ function Header() {
 
 	const handleCloseMenu = () => {
 		setAnchorEl(null);
+	};
+
+	const handleServiceListClick = (event) => {
+		event.stopPropagation();
+		event.preventDefault();
+		setOpenServicesList(!openServicesList);
 	};
 
 	// For setting tab value on refresh/reload
@@ -311,32 +332,82 @@ function Header() {
 				sx={sx.drawer}
 			>
 				<Box sx={{ ...theme.mixins.toolbar, ...sx.toolbar }} />
-				<List disablePadding>
+				<List sx={sx.drawerList} disablePadding>
 					{[...routes.slice(0, 2), ...routes.slice(5)].map(
 						({ name, link }, index) => (
-							<ListItem
-								key={name}
-								onClick={() => {
-									setValue(index);
-									setOpenDrawer(false);
-								}}
-								divider
-								component={Link}
-								to={link}
-							>
-								<ListItemButton
-									selected={value === index}
-									sx={
-										index === 5
-											? { ...sx.drawerItemButton, ...sx.drawerItemEstimate }
-											: sx.drawerItemButton
-									}
+							<Fragment key={name}>
+								<ListItem
+									onClick={() => {
+										setOpenDrawer(false);
+										if (openServicesList) setOpenServicesList(false);
+									}}
+									divider
+									component={Link}
+									to={link}
 								>
-									<ListItemText sx={sx.drawerItem} disableTypography>
-										{name}
-									</ListItemText>
-								</ListItemButton>
-							</ListItem>
+									<ListItemButton
+										disableTouchRipple
+										selected={value === index}
+										sx={
+											index === 5
+												? { ...sx.drawerItemButton, ...sx.drawerItemEstimate }
+												: sx.drawerItemButton
+										}
+									>
+										<ListItemText sx={sx.drawerItem} disableTypography>
+											{name}
+										</ListItemText>
+										{index === 1 ? (
+											<IconButton
+												sx={sx.drawerItemButton}
+												onClick={handleServiceListClick}
+												style={{ position: "absolute", right: "0.5em" }}
+											>
+												<ExpandMore sx={sx.icon} />
+											</IconButton>
+										) : null}
+									</ListItemButton>
+								</ListItem>
+								{index === 1 && (
+									<Collapse in={openServicesList} timeout="auto" unmountOnExit>
+										<List
+											disablePadding
+											sx={{ background: theme.palette.primary.light }}
+										>
+											{servicesMenuOptions
+												.slice(1)
+												.map(({ name, link }, index) => (
+													<ListItem
+														key={name}
+														onClick={() => {
+															setOpenDrawer(false);
+															setOpenServicesList(false);
+														}}
+														sx={sx.servicesMenuListItem}
+														component={Link}
+														to={link}
+													>
+														<ListItemButton
+															selected={selectedIndex - 1 === index}
+															disableTouchRipple
+														>
+															<ListItemText
+																sx={sx.drawerItem}
+																disableTypography
+															>
+																{name.split(" Development")[0]}
+																<br />
+																<span style={{ fontSize: "0.8rem" }}>
+																	Development
+																</span>
+															</ListItemText>
+														</ListItemButton>
+													</ListItem>
+												))}
+										</List>
+									</Collapse>
+								)}
+							</Fragment>
 						)
 					)}
 				</List>
