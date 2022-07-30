@@ -10,6 +10,7 @@ import Footer from "./ui/Footer";
 import theme from "./ui/theme";
 import CustomSoftware from "./CustomSoftware";
 import MobileApps from "./MobileApps";
+import Websites from "./Websites";
 
 const Home = () => {
 	return <div>Home</div>;
@@ -25,7 +26,7 @@ function App() {
 					<Route path="/services" element={<Services />} />
 					<Route path="/customsoftware" element={<CustomSoftware />} />
 					<Route path="/mobileapps" element={<MobileApps />} />
-					<Route path="/websites" element={<Home />} />
+					<Route path="/websites" element={<Websites />} />
 					<Route path="/revolution" element={<Home />} />
 					<Route path="/about" element={<Home />} />
 					<Route path="/contact" element={<Home />} />

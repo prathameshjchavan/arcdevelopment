@@ -388,7 +388,9 @@ function Header() {
 														to={link}
 													>
 														<ListItemButton
-															selected={selectedIndex - 1 === index}
+															selected={
+																value === 1 && selectedIndex - 1 === index
+															}
 															disableTouchRipple
 														>
 															<ListItemText
