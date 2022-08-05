@@ -13,6 +13,7 @@ import MobileApps from "./MobileApps";
 import Websites from "./Websites";
 import Revolution from "./Revolution";
 import About from "./About";
+import Contact from "./Contact";
 
 const Home = () => {
 	return <div>Home</div>;
@@ -31,7 +32,7 @@ function App() {
 					<Route path="/websites" element={<Websites />} />
 					<Route path="/revolution" element={<Revolution />} />
 					<Route path="/about" element={<About />} />
-					<Route path="/contact" element={<Home />} />
+					<Route path="/contact" element={<Contact />} />
 					<Route path="/estimate" element={<Home />} />
 				</Routes>
 				<Footer />

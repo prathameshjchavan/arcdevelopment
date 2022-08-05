@@ -83,6 +83,32 @@ export default createTheme({
 			fontWeight: "bold",
 		},
 	},
+	components: {
+		MuiInputLabel: {
+			styleOverrides: {
+				root: {
+					color: arcBlue,
+					fontSize: "1rem",
+				},
+			},
+		},
+		MuiInput: {
+			styleOverrides: {
+				underline: {
+					"&:before": {
+						borderBottom: `2px solid ${arcBlue}`,
+					},
+					"&:hover:not(.Mui-disabled):before": {
+						borderBottom: `2px solid ${arcBlue}`,
+					},
+				},
+				root: {
+					color: arcGrey,
+					fontWeight: 300,
+				},
+			},
+		},
+	},
 	breakpoints: {
 		values: {
 			// default
