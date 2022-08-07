@@ -14,6 +14,7 @@ import Websites from "./Websites";
 import Revolution from "./Revolution";
 import About from "./About";
 import Contact from "./Contact";
+import Estimate from "./Estimate";
 
 const Home = () => {
 	return <div>Home</div>;
@@ -33,7 +34,7 @@ function App() {
 					<Route path="/revolution" element={<Revolution />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/contact" element={<Contact />} />
-					<Route path="/estimate" element={<Home />} />
+					<Route path="/estimate" element={<Estimate />} />
 				</Routes>
 				<Footer />
 			</BrowserRouter>
