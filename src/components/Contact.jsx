@@ -1,5 +1,5 @@
 // Module Imports
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Link } from "react-router-dom";
 import {
 	Grid,
@@ -8,6 +8,8 @@ import {
 	TextField,
 	Dialog,
 	DialogContent,
+	CircularProgress,
+	Snackbar,
 	useTheme,
 	useMediaQuery,
 } from "@mui/material";
@@ -26,6 +28,12 @@ function Contact() {
 	const [phoneHelper, setPhoneHelper] = useState("");
 	const [message, setMessage] = useState("");
 	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [alert, setAlert] = useState({
+		open: false,
+		message: "",
+		backgroundColor: "",
+	});
 	const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 	const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 	const matchesLG = useMediaQuery(theme.breakpoints.down("lg"));
@@ -107,13 +115,46 @@ function Contact() {
 	};
 
 	const onConfirm = () => {
+		setLoading(true);
 		axios
 			.get(
-				"https://us-central1-arc-development-ecfb5.cloudfunctions.net/sendMail"
+				"https://us-central1-arc-development-ecfb5.cloudfunctions.net/sendMail",
+				{ params: { name, email, phone, message } }
 			)
-			.then((res) => console.log(res))
-			.catch((err) => console.log(err));
+			.then((res) => {
+				setLoading(false);
+				setOpen(false);
+				setName("");
+				setEmail("");
+				setPhone("");
+				setMessage("");
+				setAlert({
+					open: true,
+					message: "Message sent successfully!",
+					backgroundColor: "#4bb543",
+				});
+			})
+			.catch((err) => {
+				setLoading(false);
+				setAlert({
+					open: true,
+					message: "Something went wrong, please try again!",
+					backgroundColor: "#ff3232",
+				});
+			});
 	};
+
+	// content jsx
+	const buttonContents = (
+		<Fragment>
+			Send Message
+			<img
+				src="/assets/send.svg"
+				style={{ marginLeft: "1em" }}
+				alt="paper airplane"
+			/>
+		</Fragment>
+	);
 
 	// styled components
 	const Background = styled(Grid)(() => ({
@@ -288,12 +329,7 @@ function Contact() {
 								}
 								sx={sx.sendButton}
 							>
-								Send Message
-								<img
-									src="/assets/send.svg"
-									style={{ marginLeft: "1em" }}
-									alt="paper airplane"
-								/>
+								{buttonContents}
 							</Button>
 						</Grid>
 					</Grid>
@@ -402,13 +438,22 @@ function Contact() {
 									}
 									sx={sx.sendButton}
 								>
-									Send Message
+									{loading ? <CircularProgress size={30} /> : buttonContents}
 								</Button>
 							</Grid>
 						</Grid>
 					</Grid>
 				</DialogContent>
 			</Dialog>
+			{/* -----Snackbar----- */}
+			<Snackbar
+				open={alert.open}
+				message={alert.message}
+				ContentProps={{ style: { backgroundColor: alert.backgroundColor } }}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+				onClose={() => setAlert({ ...alert, open: false })}
+				autoHideDuration={4000}
+			/>
 			{/* -----Call To Action----- */}
 			<Background
 				item
