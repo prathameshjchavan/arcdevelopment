@@ -12,6 +12,7 @@ import {
 	useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 
 // Local Imports
 import ButtonArrow from "./ui/ButtonArrow";
@@ -103,6 +104,15 @@ function Contact() {
 			default:
 				break;
 		}
+	};
+
+	const onConfirm = () => {
+		axios
+			.get(
+				"https://us-central1-arc-development-ecfb5.cloudfunctions.net/sendMail"
+			)
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err));
 	};
 
 	// styled components
@@ -383,6 +393,7 @@ function Contact() {
 							<Grid item>
 								<Button
 									variant="contained"
+									onClick={onConfirm}
 									disabled={
 										name.length === 0 ||
 										message.length === 0 ||
