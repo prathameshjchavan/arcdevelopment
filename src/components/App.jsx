@@ -16,10 +16,6 @@ import About from "./About";
 import Contact from "./Contact";
 import Estimate from "./Estimate";
 
-const Home = () => {
-	return <div>Home</div>;
-};
-
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
