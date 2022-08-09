@@ -302,6 +302,7 @@ function Contact() {
 							<TextField
 								variant="standard"
 								sx={sx.message}
+								placeholder="Tell us more about your project"
 								fullWidth
 								multiline
 								InputProps={{ disableUnderline: true }}
@@ -432,6 +433,8 @@ function Contact() {
 									onClick={onConfirm}
 									disabled={
 										name.length === 0 ||
+										email.length === 0 ||
+										phone.length === 0 ||
 										message.length === 0 ||
 										phoneHelper.length !== 0 ||
 										emailHelper.length !== 0

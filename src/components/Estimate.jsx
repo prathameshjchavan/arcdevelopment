@@ -9,11 +9,14 @@ import {
 	Dialog,
 	DialogContent,
 	TextField,
+	Snackbar,
+	CircularProgress,
 	useTheme,
 	useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { cloneDeep } from "lodash";
+import axios from "axios";
 
 // Animations Data
 import estimateAnimation from "../animations/estimateAnimation/data";
@@ -291,6 +294,12 @@ function Estimate() {
 	const [category, setCategory] = useState("");
 	const [users, setUsers] = useState("");
 	const [questions, setQuestions] = useState(defaultQuestions);
+	const [loading, setLoading] = useState(false);
+	const [alert, setAlert] = useState({
+		open: false,
+		message: "",
+		backgroundColor: "",
+	});
 	const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 	const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
 	const matchesLG = useMediaQuery(theme.breakpoints.down("lg"));
@@ -514,6 +523,83 @@ function Estimate() {
 
 			setCategory(newCategory);
 		}
+	};
+
+	const sendEstimate = () => {
+		setLoading(true);
+
+		axios
+			.get(
+				"https://us-central1-arc-development-ecfb5.cloudfunctions.net/sendMail",
+				{
+					params: {
+						name,
+						email,
+						phone,
+						message,
+						total,
+						category,
+						service,
+						platforms,
+						features,
+						customFeature,
+						users,
+					},
+				}
+			)
+			.then((res) => {
+				setLoading(false);
+				setAlert({
+					open: true,
+					message: "Estimate placed successfully!",
+					backgroundColor: "#4bb543",
+				});
+				setDialogOpen(false);
+			})
+			.catch((err) => {
+				console.error(err);
+				setLoading(false);
+				setAlert({
+					open: true,
+					message: "Something went wrong, please try again!",
+					backgroundColor: "#ff3232",
+				});
+			});
+	};
+
+	const estimateDisabled = () => {
+		let disabled = true;
+
+		const emptySelections = questions
+			.map((question) => question.options.filter((option) => option.selected))
+			.filter((question) => question.length === 0);
+
+		// Condition for websites selection
+		if (questions.length === 2) {
+			if (emptySelections.length === 1) {
+				disabled = false;
+			}
+		}
+		// Condition for first question selection
+		else if (questions.length === 1) {
+			disabled = true;
+		}
+		// Condition for software/mobile apps selection
+		else {
+			const featuresLength = questions
+				.slice(2, 4)
+				.map((question) => question.options.filter((option) => option.selected))
+				.filter((options) => options.length > 0).length;
+			if (
+				questions.length > 2 &&
+				((featuresLength === 2 && emptySelections.length === 1) ||
+					(featuresLength === 1 && emptySelections.length === 2))
+			) {
+				disabled = false;
+			}
+		}
+
+		return disabled;
 	};
 
 	// event handlers
@@ -751,7 +837,8 @@ function Estimate() {
 										fontSize: "2.25rem",
 										marginTop: "5em",
 										lineHeight: 1.25,
-										margin: matchesMD ? "0 1em" : 0,
+										marginLeft: matchesMD ? "1em" : 0,
+										marginRight: matchesMD ? "1em" : 0,
 									}}
 								>
 									{title}
@@ -850,6 +937,7 @@ function Estimate() {
 				<Grid item>
 					<Button
 						variant="contained"
+						disabled={estimateDisabled()}
 						onClick={() => {
 							setDialogOpen(true);
 							getTotal();
@@ -939,6 +1027,7 @@ function Estimate() {
 								<TextField
 									variant="standard"
 									sx={sx.message}
+									placeholder="Tell us more about your project"
 									fullWidth
 									multiline
 									InputProps={{ disableUnderline: true }}
@@ -950,7 +1039,11 @@ function Estimate() {
 							</Grid>
 							{/* -----Estimate----- */}
 							<Grid item sx={sx.paragraph}>
-								<Typography variant="body1" paragraph>
+								<Typography
+									variant="body1"
+									paragraph
+									style={{ lineHeight: 1.25 }}
+								>
 									We can create this digital solution for an estimated&nbsp;
 									<SpecialText>${total.toFixed(2)}</SpecialText>
 								</Typography>
@@ -986,15 +1079,30 @@ function Estimate() {
 								<Grid item>
 									<Button
 										variant="contained"
+										disabled={
+											name.length === 0 ||
+											email.length === 0 ||
+											phone.length === 0 ||
+											message.length === 0 ||
+											phoneHelper.length !== 0 ||
+											emailHelper.length !== 0
+										}
+										onClick={sendEstimate}
 										sx={sx.estimateButton}
 										style={{ marginTop: 0 }}
 									>
-										Place Request
-										<img
-											src="/assets/send.svg"
-											alt="paper airplane"
-											style={{ marginLeft: "0.5em" }}
-										/>
+										{loading ? (
+											<CircularProgress />
+										) : (
+											<Fragment>
+												Place Request
+												<img
+													src="/assets/send.svg"
+													alt="paper airplane"
+													style={{ marginLeft: "0.5em" }}
+												/>
+											</Fragment>
+										)}
 									</Button>
 								</Grid>
 								{/* -----Cancel Button----- */}
@@ -1016,6 +1124,15 @@ function Estimate() {
 					</Grid>
 				</DialogContent>
 			</Dialog>
+			{/* -----Snackbar----- */}
+			<Snackbar
+				open={alert.open}
+				message={alert.message}
+				ContentProps={{ style: { backgroundColor: alert.backgroundColor } }}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+				onClose={() => setAlert({ ...alert, open: false })}
+				autoHideDuration={4000}
+			/>
 		</Grid>
 	);
 }
