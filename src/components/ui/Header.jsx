@@ -134,6 +134,9 @@ function Header() {
 			"&:hover": {
 				background: "transparent",
 			},
+			"& .MuiTouchRipple-child": {
+				backgroundColor: "#000",
+			},
 		},
 		drawerItemEstimate: {
 			background: theme.palette.common.orange,
@@ -346,7 +349,6 @@ function Header() {
 									to={link}
 								>
 									<ListItemButton
-										disableTouchRipple
 										selected={value === index}
 										sx={
 											index === 5
